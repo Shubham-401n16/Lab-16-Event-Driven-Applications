@@ -1,6 +1,5 @@
 'use strict';
-const driver = require('../lib/driver.js');
-const vendor = require('../lib/vendor.js');
+const handler = require('../lib/handlers.js')
 
 let consoleSpy = jest.spyOn(console, 'log');
 
@@ -16,7 +15,7 @@ describe('Handler', () => {
           address: 'Bellevue',
         };
 
-        driver.pickupHandler(payload);
+        handler.driverPickupHandler(payload);
         expect(consoleSpy).toHaveBeenCalledWith(`Driver is picking up order ${payload.orderId}`);
     });
 
@@ -31,7 +30,7 @@ describe('Handler', () => {
             address: 'Bellevue',
           };
   
-        driver.inTransitHandler(payload);
+          handler.driverDeliveredHandler(payload);
         setTimeout(() => {
           expect(consoleSpy).toHaveBeenCalledWith(`Delivered order ${payload.orderId}`);
         }, 3000);
@@ -47,13 +46,13 @@ describe('Handler', () => {
             address: 'Bellevue',
           };
   
-        vendor.vendorHandler(payload);
+          handler.vendorDeliveredHandler(payload);
         setTimeout(() => {
           expect(consoleSpy).toHaveBeenCalledWith(`Vendor thanks for delivering order ${payload.orderId}`);
         }, 5000);
     });
 
-    it('can log vendor pickup', () => {
+    it('can log in transit order logger', () => {
         consoleSpy.mockClear();
         let payload = {
             time: '8 Apr',
@@ -63,7 +62,43 @@ describe('Handler', () => {
             address: 'Bellevue',
           };
   
-        vendor.vendorHandler(payload);
-        expect(consoleSpy).toHaveBeenCalled();
+          handler.inTransitOrderLogger(payload);
+        expect(consoleSpy).toHaveBeenCalledWith(`EVENT in-transit ${payload.orderId}`);
     });
+
+    it('can log in transit order loggerdelivered order logger', () => {
+      consoleSpy.mockClear();
+      let payload = {
+          time: '8 Apr',
+          store:'st',
+          orderId: 5565,
+          customer: 'Test',
+          address: 'Bellevue',
+        };
+
+        handler.deliveredOrderLogger(payload);
+      expect(consoleSpy).toHaveBeenCalledWith(`Delivered order ${payload.orderId}`);
+  });
+
+it('can log pickup order logger', () => {
+  consoleSpy.mockClear();
+  let payload = {
+      time: '8 Apr',
+      store:'st',
+      orderId: 5565,
+      customer: 'Test',
+      address: 'Bellevue',
+    };
+
+    handler.pickupOrderLogger(payload);
+  expect(consoleSpy).toHaveBeenCalledWith('EVENT pickup')
+  expect(consoleSpy).toHaveBeenCalledWith('- Time:', payload.time)
+  expect(consoleSpy).toHaveBeenCalledWith('- Store:', payload.store)
+  expect(consoleSpy).toHaveBeenCalledWith('- OrderID:', payload.orderId)
+  expect(consoleSpy).toHaveBeenCalledWith('- Customer:', payload.customer)
+  expect(consoleSpy).toHaveBeenCalledWith('- Address:', payload.address)
+
 });
+
+});
+
