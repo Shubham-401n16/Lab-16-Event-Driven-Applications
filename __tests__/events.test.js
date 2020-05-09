@@ -16,7 +16,7 @@ describe('Handler', () => {
         };
 
         driver.pickupHandler(payload);
-        expect(consoleSpy).toHaveBeenCalled();
+        expect(consoleSpy).toHaveBeenCalledWith(`Driver is picking up order ${payload.orderId}`);
     });
 
     it('can log inTransitHandler', () => {
@@ -32,7 +32,7 @@ describe('Handler', () => {
   
         driver.inTransitHandler(payload);
         setTimeout(() => {
-          expect(consoleSpy).toHaveBeenCalledWith('Delivered order 5565');
+          expect(consoleSpy).toHaveBeenCalledWith(`Delivered order ${payload.orderId}`);
         }, 3000);
     });
 
@@ -48,7 +48,21 @@ describe('Handler', () => {
   
         vendor.vendorHandler(payload);
         setTimeout(() => {
-          expect(consoleSpy).toHaveBeenCalled('Vendor thanks for delivering order 5565');
-        }, 3000);
+          expect(consoleSpy).toHaveBeenCalledWith(`Vendor thanks for delivering order ${payload.orderId}`);
+        }, 5000);
+    });
+
+    it('can log vendor pickup', () => {
+        consoleSpy.mockClear();
+        let payload = {
+            time: '8 Apr',
+            store:'st',
+            orderId: 5565,
+            customer: 'Test',
+            address: 'Bellevue',
+          };
+  
+        vendor.vendorHandler(payload);
+        expect(consoleSpy).toHaveBeenCalled();
     });
 });
