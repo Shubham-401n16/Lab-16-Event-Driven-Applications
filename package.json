@@ -1,0 +1,28 @@
+{
+  "name": "Lab-16-Event-Driven-Applications",
+  "version": "1.0.0",
+  "description": "## Access Control",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest --verbose --coverage",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shubham-401n16/Lab-16-Event-Driven-Applications.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shubham-401n16/Lab-16-Event-Driven-Applications/issues"
+  },
+  "homepage": "https://github.com/Shubham-401n16/Lab-16-Event-Driven-Applications#readme",
+  "dependencies": {
+    "faker": "^4.1.0",
+    "jest": "^26.0.1"
+  }
+}
