@@ -1,3 +1,4 @@
+'use strict';
 const driver = require('../lib/driver.js');
 const vendor = require('../lib/vendor.js');
 
